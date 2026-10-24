@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>म्यूज़िकल ऑटो सेवा</title>
+<title>म्यूजिकल ऑटो सेवा</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -83,7 +83,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 <div class="shade"></div>
 
 <div class="top">
-  <button class="pill off" id="amb" title="Auto ki aawaz"><i></i>AMBIENCE</button>
+  <button class="pill off" id="amb" title="ऑटो की असली आवाज़"><i></i>ऑटो की आवाज़</button>
   <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
   <button class="round skull" id="skull" title="Start mooning"><svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 2.8 1.3 5.2 3.3 6.8V21h3v-2h1.4v2h2.6v-2h1.4v2h3v-3.2A9 9 0 0 0 12 2zM8.5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></button>
 </div>
@@ -97,7 +97,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 <div class="player">
   <div class="disc" id="disc"><b></b></div>
   <div class="meta">
-    <div class="np">NOW PLAYING</div>
+    <div class="np">अभी बज रहा है</div>
     <div class="song" id="song"><span id="songT">—</span></div>
     <div class="bar" id="bar"><div id="fill"></div></div>
     <div class="time" id="time">0:00 / 0:00</div>
@@ -109,12 +109,12 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
   </div>
 </div>
 
-<a class="signature" href="https://www.instagram.com/o0o_bc/" target="_blank" rel="noopener noreferrer" aria-label="Created by Rajeev Ranjan">
+<a class="signature" href="https://www.instagram.com/0o0_bc/" target="_blank" rel="noopener noreferrer" aria-label="Created by Rajeev Ranjan">
   <span class="sig-mark">✦</span>
   <span class="sig-copy"><small>CRAFTED BY</small><strong>RAJEEV RANJAN</strong></span>
 </a>
-<a class="instagram" href="https://www.instagram.com/o0o_bc/" target="_blank" rel="noopener noreferrer" aria-label="Instagram 0o0_bc">
-  <span class="ig-icon">◎</span><span>o0o_bc</span><span aria-hidden="true">↗</span>
+<a class="instagram" href="https://www.instagram.com/0o0_bc/" target="_blank" rel="noopener noreferrer" aria-label="Instagram 0o0_bc">
+  <span class="ig-icon">◎</span><span>0o0_bc</span><span aria-hidden="true">↗</span>
 </a>
 <div class="toast" id="toast"></div>
 
@@ -206,8 +206,7 @@ function toggle(){
   }
   if(!audio.src) load(0, false);
   if(audio.paused){
-    // Keep the music playlist and the auto's original ambience from overlapping.
-    amb = false; bg.muted = true; $('amb').classList.add('off');
+    // Playlist can play at the same time as the video's original ambience.
     play();
   } else {
     audio.pause();
@@ -238,11 +237,10 @@ let amb = false;
 $('amb').onclick = ()=>{
   amb = !amb;
   if(amb){
-    // Play the original audio track from auto.mp4.
-    audio.pause();
+    // Play the original audio track from auto.mp4 alongside the music playlist.
     bg.volume = 1;
     bg.muted = false;
-    bg.play().catch(()=>toast("Tap Ambience again to play the original auto.mp4 sound."));
+    bg.play().catch(()=>toast("ऑटो की असली आवाज़ चलाने के लिए फिर से बटन दबाएँ।"));
   } else {
     bg.muted = true;
   }
