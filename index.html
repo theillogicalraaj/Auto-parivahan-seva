@@ -174,55 +174,96 @@ async function loadHostedSongs(){
 
     tracks = songs
       .filter(song => song && typeof song.src === "string" && typeof song.title === "string")
-      .map(song => ({ title: song.title, src: song.src }));
+      .map(song => ({
+        title: song.title,
+        // Resolve relative paths against this page so filenames with spaces work.
+        src: new URL(song.src, document.baseURI).href
+      }));
 
     if (!tracks.length) {
-      setTitle("No songs available");
-      toast("The playlist is empty");
+      setTitle("कोई गाना उपलब्ध नहीं");
+      toast("songs.json में कोई गाना नहीं मिला।");
       return;
     }
 
     idx = 0;
     load(0, false);
-    toast(tracks.length + " songs ready — press Play");
+    toast(tracks.length + " गाने तैयार हैं — Play दबाएँ");
   } catch (error) {
     console.error("Hosted playlist could not be loaded:", error);
-    setTitle("Music unavailable");
-    toast("Music could not load. Check songs.json and the songs folder.");
+    setTitle("गाने उपलब्ध नहीं");
+    toast("गाने लोड नहीं हुए। songs.json और songs फ़ोल्डर जाँचें।");
   }
 }
 
+let wantsPlayback = false;
+let failedTrackCount = 0;
+
 function load(i, autoplay){
-  if(!tracks.length){ setTitle("Add a song to start"); return; }
+  if(!tracks.length){ setTitle("कोई गाना उपलब्ध नहीं"); return; }
   idx = (i + tracks.length) % tracks.length;
-  audio.src = tracks[idx].src; setTitle(tracks[idx].title);
+  wantsPlayback = !!autoplay;
+  audio.pause();
+  audio.src = tracks[idx].src;
+  setTitle(tracks[idx].title);
+  audio.load();
   if(autoplay) play();
 }
-function play(){ return audio.play().catch(()=>{}); }
+
+function play(){
+  if(!tracks.length) return Promise.resolve();
+  wantsPlayback = true;
+  return audio.play().catch(error => {
+    console.warn("Could not start track:", tracks[idx]?.src, error);
+    // Keep the controls usable; browser autoplay restrictions can require another tap.
+    if (error && error.name === "NotAllowedError") {
+      toast("गाना चलाने के लिए Play दबाएँ।");
+    }
+  });
+}
+
 function toggle(){
   if(!tracks.length){
-    toast("Music library is loading. Please wait.");
+    toast("गाने लोड हो रहे हैं। कृपया कुछ देर बाद कोशिश करें।");
     return;
   }
-  if(!audio.src) load(0, false);
   if(audio.paused){
-    // Playlist can play at the same time as the video's original ambience.
+    if(!audio.src) load(0, false);
     play();
   } else {
+    wantsPlayback = false;
     audio.pause();
   }
 }
+
 audio.addEventListener('play', ()=>{ $('playIc').innerHTML=PAUSE; $('disc').classList.add('on'); });
 audio.addEventListener('pause',()=>{ $('playIc').innerHTML=PLAY;  $('disc').classList.remove('on'); });
-audio.addEventListener('ended',()=> load(idx+1,true));
+audio.addEventListener('playing',()=>{
+  wantsPlayback = true;
+  failedTrackCount = 0;
+});
+audio.addEventListener('ended',()=>{
+  if(tracks.length) load(idx+1, true);
+});
 audio.addEventListener('timeupdate',()=>{
   $('fill').style.width = (audio.duration ? audio.currentTime/audio.duration*100 : 0) + "%";
   $('time').textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
 });
 audio.addEventListener('error',()=>{
-  toast("Song could not be played. Check the song file in the hosted songs folder.");
   $('disc').classList.remove('on');
   $('playIc').innerHTML = PLAY;
+
+  // If a track is missing or has a bad path, automatically try the next one.
+  // Stop after one full playlist pass to avoid an endless loop.
+  if (wantsPlayback && tracks.length && failedTrackCount < tracks.length) {
+    failedTrackCount++;
+    console.warn("Skipping unavailable track:", tracks[idx]?.src);
+    toast("यह गाना नहीं चला — अगला गाना चलाने की कोशिश हो रही है।");
+    setTimeout(()=>load(idx+1, true), 150);
+  } else {
+    wantsPlayback = false;
+    toast("गाना नहीं चला। songs.json में इस गाने का path और songs फ़ोल्डर जाँचें।");
+  }
 });
 
 $('play').onclick = toggle;
@@ -240,7 +281,7 @@ $('amb').onclick = ()=>{
     // Play the original audio track from auto.mp4 alongside the music playlist.
     bg.volume = 1;
     bg.muted = false;
-    bg.play().catch(()=>toast("ऑटो की असली आवाज़ चलाने के लिए फिर से बटन दबाएँ।"));
+    bg.play().catch(()=>toast("ऑटो की आवाज़ चलाने के लिए बटन फिर दबाएँ।"));
   } else {
     bg.muted = true;
   }
