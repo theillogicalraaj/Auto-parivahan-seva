@@ -86,8 +86,6 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
   <p class="sub">आपका स्वागत करती है</p>
 </div>
 
-<button class="pill off add" id="addBtn">+ Load songs folder</button>
-<input type="file" id="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" webkitdirectory directory multiple hidden>
 
 <div class="player">
   <div class="disc" id="disc"><b></b></div>
@@ -111,7 +109,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <script>
 /* ===== PLAYLIST — put mp3 files in /songs and list them here ===== */
-const PLAYLIST = []; // Load your local audio folder with the button below.
+const PLAYLIST = []; // Playlist is loaded automatically from songs.json.
 /* ================================================================= */
 
 const $ = id => document.getElementById(id);
@@ -156,6 +154,33 @@ function setTitle(t){
   const s = $('song'); s.classList.remove('run');
   requestAnimationFrame(()=>{ if ($('songT').scrollWidth > s.clientWidth) s.classList.add('run'); });
 }
+async function loadHostedSongs(){
+  try {
+    const response = await fetch("./songs.json", { cache: "no-cache" });
+    if (!response.ok) throw new Error("songs.json returned HTTP " + response.status);
+    const songs = await response.json();
+    if (!Array.isArray(songs)) throw new Error("songs.json must contain an array");
+
+    tracks = songs
+      .filter(song => song && typeof song.src === "string" && typeof song.title === "string")
+      .map(song => ({ title: song.title, src: song.src }));
+
+    if (!tracks.length) {
+      setTitle("No songs available");
+      toast("The playlist is empty");
+      return;
+    }
+
+    idx = 0;
+    load(0, false);
+    toast(tracks.length + " songs ready — press Play");
+  } catch (error) {
+    console.error("Hosted playlist could not be loaded:", error);
+    setTitle("Music unavailable");
+    toast("Music could not load. Check songs.json and the songs folder.");
+  }
+}
+
 function load(i, autoplay){
   if(!tracks.length){ setTitle("Add a song to start"); return; }
   idx = (i + tracks.length) % tracks.length;
@@ -164,8 +189,11 @@ function load(i, autoplay){
 }
 function play(){ return audio.play().catch(()=>{}); }
 function toggle(){
-  if(!tracks.length) return $('file').click();
-  if(!audio.src) load(0);
+  if(!tracks.length){
+    toast("Music library is loading. Please wait.");
+    return;
+  }
+  if(!audio.src) load(0, false);
   audio.paused ? play() : audio.pause();
 }
 audio.addEventListener('play', ()=>{ $('playIc').innerHTML=PAUSE; $('disc').classList.add('on'); });
@@ -176,8 +204,9 @@ audio.addEventListener('timeupdate',()=>{
   $('time').textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
 });
 audio.addEventListener('error',()=>{
-  toast("Song file nahi mila — '+ Load songs folder' dabao aur songs folder select karo");
-  $('disc').classList.remove('on'); $('playIc').innerHTML = PLAY;
+  toast("Song could not be played. Check the song file in the hosted songs folder.");
+  $('disc').classList.remove('on');
+  $('playIc').innerHTML = PLAY;
 });
 
 $('play').onclick = toggle;
@@ -185,17 +214,7 @@ $('next').onclick = ()=> load(idx+1, true);
 $('prev').onclick = ()=> audio.currentTime > 4 ? (audio.currentTime = 0) : load(idx-1, true);
 $('bar').onclick = e => { const r=$('bar').getBoundingClientRect(); if(audio.duration) audio.currentTime = (e.clientX-r.left)/r.width*audio.duration; };
 
-/* add local songs (works instantly, no hosting needed) */
-$('addBtn').onclick = ()=> $('file').click();
-$('file').onchange = e => {
-  const files = [...e.target.files]
-    .filter(f => /\.(mp3|m4a|aac|wav|ogg|flac|opus|webm)$/i.test(f.name))
-    .sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true, sensitivity:'base'}));
-  if(!files.length){ toast('Selected folder mein audio files nahi mile'); e.target.value=''; return; }
-  tracks = files.map(f => ({ title: f.name.replace(/\.[^.]+$/, ''), src: URL.createObjectURL(f), local:true }));
-  idx = 0; load(0, true); toast(files.length + ' songs loaded');
-  e.target.value = '';
-};
+/* Songs load automatically from the hosted songs.json playlist. */
 
 /* top buttons */
 let amb = false;
@@ -208,12 +227,16 @@ $('skull').onclick = ()=>{ const on = bg.classList.toggle('ghost'); $('skull').t
 /* live passenger count */
 setInterval(()=>{ $('count').textContent = 10 + Math.floor(Math.random()*4); }, 4000);
 
-/* init: try autoplay, else start on first tap (browser policy) */
-if (tracks.length) load(0, false);
-else setTitle("Load your songs folder");
-bg.play().catch(()=>{});
-const kick = ()=>{ if(started) return; started = true; if(audio.paused && tracks.length) play(); bg.play().catch(()=>{}); };
-addEventListener('pointerdown', e => { if(!e.target.closest('button,.bar')) kick(); else started = true; }, { once:false });
+/* Load the hosted playlist automatically. Browsers still require a user tap
+   before audio with sound can start; the visitor only needs to press Play. */
+loadHostedSongs();
+bg.play().catch(() => {});
+const kick = () => {
+  if (started) return;
+  started = true;
+  bg.play().catch(() => {});
+};
+addEventListener('pointerdown', kick, { once: true });
 </script>
 </body>
 </html>
