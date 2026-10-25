@@ -24,9 +24,9 @@
 
 html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',system-ui,sans-serif;color:#fff}
 
-\#bg,#rainBg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s,filter .6s}#rainBg{opacity:0;pointer-events:none}#rainBg.active{opacity:1}
+#bg,#rainBg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;transition:opacity .45s,filter .6s}#rainBg{opacity:0;pointer-events:none}#rainBg.active{opacity:1}
 
-\#bg.ghost{filter:grayscale(1) contrast(1.2) brightness(.6)}
+#bg.ghost{filter:grayscale(1) contrast(1.2) brightness(.6)}
 
 .shade{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.05) 30%,rgba(0,0,0,.55) 100%),linear-gradient(to bottom,rgba(0,0,0,.35),transparent 30%,transparent 65%,rgba(0,0,0,.55))}
 
@@ -60,9 +60,9 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 .title{font-family:'Mukta',sans-serif;font-weight:800;line-height:.95;font-size:clamp(46px,9.2vw,128px);color:var(--red);
 
-  -webkit-text-stroke:clamp(5px,.9vw,12px) #fff;paint-order:stroke fill;transform:rotate(-6deg) skewX(-8deg);
+  -webkit-text-stroke:clamp(5px,.9vw,12px) #fff;paint-order:stroke fill;transform:rotate(-6deg) skewX(-8deg);
 
-  filter:drop-shadow(5px 6px 0 rgba(0,0,0,.55)) drop-shadow(0 10px 25px rgba(0,0,0,.5));display:inline-block}
+  filter:drop-shadow(5px 6px 0 rgba(0,0,0,.55)) drop-shadow(0 10px 25px rgba(0,0,0,.5));display:inline-block}
 
 .title span{display:block}
 
@@ -98,7 +98,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 .player{position:fixed;left:50%;bottom:11vh;transform:translateX(-50%);width:min(480px,92vw);height:86px;border-radius:99px;display:flex;align-items:center;gap:16px;padding:0 20px 0 12px;
 
-  background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.1));border:1.5px solid var(--line);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);box-shadow:0 20px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.4);z-index:5}
+  background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.1));border:1.5px solid var(--line);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);box-shadow:0 20px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.4);z-index:5}
 
 .disc{position:relative;flex:none;width:66px;height:66px;border-radius:50%;background:repeating-radial-gradient(#111 0 2px,#1d1d1d 2px 4px);box-shadow:0 4px 14px rgba(0,0,0,.6);animation:spin 5s linear infinite;animation-play-state:paused}
 
@@ -174,55 +174,65 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 @media(max-width:640px){
 
-  .hero{top:clamp(70px,10vh,100px);padding:0 10px}
+  .hero{top:clamp(70px,10vh,100px);padding:0 10px}
 
-  .title{font-size:clamp(38px,12vw,76px);-webkit-text-stroke:clamp(3px,.8vw,6px) #fff}
+  .title{font-size:clamp(38px,12vw,76px);-webkit-text-stroke:clamp(3px,.8vw,6px) #fff}
 
-  .sub{font-size:clamp(13px,4vw,18px);margin-top:10px}
+  .sub{font-size:clamp(13px,4vw,18px);margin-top:10px}
 
-  .signature{left:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:6px 8px 6px 6px;gap:6px;letter-spacing:.5px}
+  .signature{left:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:6px 8px 6px 6px;gap:6px;letter-spacing:.5px}
 
-  .signature .sig-mark{width:21px;height:21px}.signature small{font-size:6px;letter-spacing:1.2px}.signature strong{font-size:8px;letter-spacing:.4px}
+  .signature .sig-mark{width:21px;height:21px}.signature small{font-size:6px;letter-spacing:1.2px}.signature strong{font-size:8px;letter-spacing:.4px}
 
-  .instagram{right:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:7px 9px;font-size:10px;gap:5px}
+  .instagram{right:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:7px 9px;font-size:10px;gap:5px}
 
-  .instagram .ig-icon{width:16px;height:16px}
+  .instagram .ig-icon{width:16px;height:16px}
 
-  .player{bottom:calc(max(env(safe-area-inset-bottom),10px) + 48px);height:74px;width:calc(100vw - 20px);gap:8px;padding:0 10px}
+  .player{bottom:calc(max(env(safe-area-inset-bottom),10px) + 48px);height:74px;width:calc(100vw - 20px);gap:8px;padding:0 10px}
 
-  .disc{width:48px;height:48px}.disc b{inset:12px}
+  .disc{width:48px;height:48px}.disc b{inset:12px}
 
-  .meta{min-width:0}.np{font-size:8px;letter-spacing:1.2px}.song{font-size:12px}.time{font-size:9px;margin-top:4px}
+  .meta{min-width:0}.np{font-size:8px;letter-spacing:1.2px}.song{font-size:12px}.time{font-size:9px;margin-top:4px}
 
-  .ctrl{gap:4px}.ctrl button{width:31px;height:31px}.ctrl button.main{width:35px;height:35px}
+  .ctrl{gap:4px}.ctrl button{width:31px;height:31px}.ctrl button.main{width:35px;height:35px}
 
-  .pill{padding:0 10px;height:36px;font-size:11px;gap:6px}.round{width:36px;height:36px}.top{right:8px;gap:6px}
+  .pill{padding:0 10px;height:36px;font-size:11px;gap:6px}.round{width:36px;height:36px}.top{right:8px;gap:6px}
 
 }
 
 @media(max-width:380px){
 
-  .player{gap:6px;padding:0 7px}.disc{width:40px;height:40px}.disc b{inset:10px}
+  .player{gap:6px;padding:0 7px}.disc{width:40px;height:40px}.disc b{inset:10px}
 
-  .ctrl button{width:28px;height:28px}.ctrl button.main{width:32px;height:32px}
+  .ctrl button{width:28px;height:28px}.ctrl button.main{width:32px;height:32px}
 
-  .song{font-size:11px}.top .round.skull{display:none}
+  .song{font-size:11px}.top .round.skull{display:none}
 
-  .instagram{font-size:9px}
+  .instagram{font-size:9px}
 
 }
 
 @media(max-height:500px) and (orientation:landscape){.top{max-width:calc(100vw - 12px);gap:4px}.volume-pair{height:24px}.volume-pair button{width:18px;height:18px}
 
-  .hero{top:54px}.title{font-size:clamp(30px,7vw,54px);-webkit-text-stroke:3px #fff}
+  .hero{top:54px}.title{font-size:clamp(30px,7vw,54px);-webkit-text-stroke:3px #fff}
 
-  .sub{font-size:12px;margin-top:5px}.title-tools{margin-top:4px}
+  .sub{font-size:12px;margin-top:5px}.title-tools{margin-top:4px}
 
-  .player{bottom:8px;height:64px;width:min(430px,80vw)}.disc{width:46px;height:46px}.disc b{inset:11px}
+  .player{bottom:8px;height:64px;width:min(430px,80vw)}.disc{width:46px;height:46px}.disc b{inset:11px}
 
-  .signature,.instagram{bottom:8px}.top{top:8px}
+  .signature,.instagram{bottom:8px}.top{top:8px}
 
 }
+
+
+/* Compact searchable song picker */
+.song-browser-trigger{position:fixed;z-index:8;left:calc(50% + min(240px,46vw) - 104px);bottom:calc(11vh + 98px);height:34px;padding:0 13px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(12,12,12,.72);color:#fff;font:600 11px Poppins,system-ui,sans-serif;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;box-shadow:0 5px 18px #0005}
+.song-browser{position:fixed;z-index:12;right:max(4vw,calc(50% - 240px));bottom:calc(11vh + 140px);width:min(340px,92vw);max-height:min(46vh,390px);display:none;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.3);border-radius:18px;background:rgba(14,14,17,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 18px 50px #0009}
+.song-browser.open{display:flex}.song-browser-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px 9px}.song-browser-title{font-size:13px;font-weight:700}.song-browser-count{font-size:10px;color:#ddd;margin-top:2px}.song-browser-close{border:0;border-radius:50%;width:28px;height:28px;background:#ffffff20;color:#fff;font-size:19px;cursor:pointer}
+.song-search{margin:0 12px 10px;width:calc(100% - 24px);height:36px;padding:0 12px;border:1px solid #ffffff2c;border-radius:10px;background:#ffffff12;color:#fff;outline:none;font:500 12px Poppins,system-ui,sans-serif}.song-search::placeholder{color:#ddd}
+.song-list{overflow-y:auto;overscroll-behavior:contain;padding:0 8px 9px;scrollbar-width:thin;scrollbar-color:#ffffff55 transparent}.song-option{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:10px;background:transparent;color:#fff;text-align:left;cursor:pointer;font:500 12px Poppins,system-ui,sans-serif}.song-option:hover,.song-option:focus-visible{background:#ffffff16;outline:none}.song-option.current{background:rgba(232,17,45,.25)}.song-num{flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#ffffff16;font-size:10px;color:#eee}.song-option.current .song-num{background:#e8112d}.song-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.song-status{flex:none;font-size:10px;color:#ffb5bf}.song-empty{padding:18px 12px;text-align:center;color:#ddd;font-size:12px}
+@media(max-width:600px){.song-browser-trigger{left:auto;right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 126px)}.song-browser{right:10px;bottom:calc(max(env(safe-area-inset-bottom),10px) + 166px);max-height:44vh;width:min(340px,calc(100vw - 20px))}}
+@media(max-height:500px) and (orientation:landscape){.song-browser-trigger{bottom:78px}.song-browser{bottom:118px;max-height:52vh}}
 
 </style>
 
@@ -242,11 +252,11 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <div class="top">
 
-  <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i>ऑटो की आवाज़</button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><button type="button" id="autoVolDown" aria-label="ऑटो की आवाज़ कम करें">−</button><span id="autoVolValue">70%</span><button type="button" id="autoVolUp" aria-label="ऑटो की आवाज़ बढ़ाएँ">+</button></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i>बारिश</button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><button type="button" id="rainVolDown" aria-label="बारिश की आवाज़ कम करें">−</button><span id="rainVolValue">60%</span><button type="button" id="rainVolUp" aria-label="बारिश की आवाज़ बढ़ाएँ">+</button></div></div>
+  <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i>ऑटो की आवाज़</button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><button type="button" id="autoVolDown" aria-label="ऑटो की आवाज़ कम करें">−</button><span id="autoVolValue">70%</span><button type="button" id="autoVolUp" aria-label="ऑटो की आवाज़ बढ़ाएँ">+</button></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i>बारिश</button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><button type="button" id="rainVolDown" aria-label="बारिश की आवाज़ कम करें">−</button><span id="rainVolValue">60%</span><button type="button" id="rainVolUp" aria-label="बारिश की आवाज़ बढ़ाएँ">+</button></div></div>
 
-  <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
+  <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
 
-  <button class="round skull" id="skull" title="Start mooning"><svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 2.8 1.3 5.2 3.3 6.8V21h3v-2h1.4v2h2.6v-2h1.4v2h3v-3.2A9 9 0 0 0 12 2zM8.5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></button>
+  <button class="round skull" id="skull" title="Start mooning"><svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 2.8 1.3 5.2 3.3 6.8V21h3v-2h1.4v2h2.6v-2h1.4v2h3v-3.2A9 9 0 0 0 12 2zM8.5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></button>
 
 </div>
 
@@ -254,11 +264,11 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <div class="hero" id="hero">
 
-  <h1 class="title"><span>म्यूज़िकल</span><span>ऑटो</span><span>सेवा</span></h1>
+  <h1 class="title"><span>म्यूज़िकल</span><span>ऑटो</span><span>सेवा</span></h1>
 
-  <p class="sub">आपका स्वागत करती है</p>
+  <p class="sub">आपका स्वागत करती है</p>
 
-  <div class="title-tools"><button class="hide-title" id="hideTitle" type="button" aria-label="शीर्षक छिपाएँ">शीर्षक छिपाएँ ×</button></div>
+  <div class="title-tools"><button class="hide-title" id="hideTitle" type="button" aria-label="शीर्षक छिपाएँ">शीर्षक छिपाएँ ×</button></div>
 
 </div>
 
@@ -270,45 +280,56 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 
 <div class="player">
 
-  <div class="disc" id="disc"><b></b></div>
+  <div class="disc" id="disc"><b></b></div>
 
-  <div class="meta">
+  <div class="meta">
 
-    <div class="np">अभी बज रहा है</div>
+    <div class="np">अभी बज रहा है</div>
 
-    <div class="song" id="song"><span id="songT">—</span></div>
+    <div class="song" id="song"><span id="songT">—</span></div>
 
-    <div class="bar" id="bar"><div id="fill"></div></div>
+    <div class="bar" id="bar"><div id="fill"></div></div>
 
-    <div class="time" id="time">0:00 / 0:00</div>
+    <div class="time" id="time">0:00 / 0:00</div>
 
-  </div>
+  </div>
 
-  <div class="ctrl">
+  <div class="ctrl">
 
-    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
 
-    <button id="play" class="main" aria-label="Play/Pause"><svg viewBox="0 0 24 24" id="playIc"><path d="M8 5v14l11-7z"/></svg></button>
+    <button id="play" class="main" aria-label="Play/Pause"><svg viewBox="0 0 24 24" id="playIc"><path d="M8 5v14l11-7z"/></svg></button>
 
-    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
 
-  </div>
+  </div>
 
 </div>
 
 
 
+<button class="song-browser-trigger" id="songBrowserToggle" type="button" aria-expanded="false" aria-controls="songBrowser">♫ सभी गाने <span id="songBrowserButtonCount">…</span></button>
+<section class="song-browser" id="songBrowser" aria-label="गानों की सूची">
+  <div class="song-browser-head"><div><div class="song-browser-title">अपना गाना चुनें</div><div class="song-browser-count" id="songBrowserCount">गाने लोड हो रहे हैं…</div></div><button class="song-browser-close" id="songBrowserClose" type="button" aria-label="बंद करें">×</button></div>
+  <div class="offline-tools" style="display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap">
+    <button type="button" id="offlineDownload" class="song-browser-trigger" style="position:static;display:inline-flex;box-shadow:none">⬇ गाने offline सेव करें</button>
+    <span id="offlineStatus" style="font-size:12px;opacity:.85">इंटरनेट रहते एक बार डाउनलोड करें</span>
+  </div>
+  <input class="song-search" id="songSearch" type="search" placeholder="गाना खोजें…" autocomplete="off" aria-label="गाना खोजें">
+  <div class="song-list" id="songList" role="listbox" aria-label="सभी गाने"></div>
+</section>
+
 <a class="signature" href="https://www.instagram.com/0o0_bc/" target="_blank" rel="noopener noreferrer" aria-label="Created by Rajeev Ranjan">
 
-  <span class="sig-mark">✦</span>
+  <span class="sig-mark">✦</span>
 
-  <span class="sig-copy"><small>CRAFTED BY</small><strong>RAJEEV RANJAN</strong></span>
+  <span class="sig-copy"><small>CRAFTED BY</small><strong>RAJEEV RANJAN</strong></span>
 
 </a>
 
 <a class="instagram" href="https://www.instagram.com/0o0_bc/" target="_blank" rel="noopener noreferrer" aria-label="Instagram 0o0_bc">
 
-  <span class="ig-icon">◎</span><span>0o0_bc</span><span aria-hidden="true">↗</span>
+  <span class="ig-icon">◎</span><span>0o0_bc</span><span aria-hidden="true">↗</span>
 
 </a>
 
@@ -328,7 +349,7 @@ const PLAYLIST = []; // Playlist is loaded automatically from songs.json.
 
 const $ = id => document.getElementById(id);
 
-const audio = new Audio(); audio.preload = "auto";
+const audio = new Audio(); audio.preload = "none";
 const autoEngine = new Audio("sounds/auto-engine.mp3");
 autoEngine.loop = true;
 autoEngine.preload = "auto";
@@ -342,6 +363,14 @@ const bg = $('bg');
 const rainBg = $('rainBg');
 
 let idx = 0, started = false, tracks = PLAYLIST.slice();
+const RESUME_KEY = 'musicalAutoSeva.resume.v1';
+let pendingResumeTime = 0, lastSavedAt = 0;
+function savePlaybackState(force=false){
+  const now=Date.now(); if(!force && now-lastSavedAt<1800)return; lastSavedAt=now;
+  try{localStorage.setItem(RESUME_KEY,JSON.stringify({src:tracks[idx]?.src||audio.currentSrc||'',title:tracks[idx]?.title||'',time:pendingResumeTime>0?pendingResumeTime:(Number.isFinite(audio.currentTime)?audio.currentTime:0),savedAt:now}));}catch(e){}
+}
+function readPlaybackState(){try{return JSON.parse(localStorage.getItem(RESUME_KEY)||'null')}catch(e){return null}}
+function restorePosition(){if(pendingResumeTime>0 && Number.isFinite(audio.duration)){try{audio.currentTime=Math.min(pendingResumeTime,Math.max(0,audio.duration-1));}catch(e){}}pendingResumeTime=0;}
 
 
 
@@ -351,49 +380,49 @@ let idx = 0, started = false, tracks = PLAYLIST.slice();
 
 function makeSynthWav(){
 
-  const sr=22050, bpm=104, beat=60/bpm, bars=16, N=Math.floor(sr*beat*4*bars), d=new Float32Array(N);
+  const sr=22050, bpm=104, beat=60/bpm, bars=16, N=Math.floor(sr*beat*4*bars), d=new Float32Array(N);
 
-  const D=146.83, sc=[0,1,4,5,7,8,11,12]; // phrygian/bhairavi-ish
+  const D=146.83, sc=[0,1,4,5,7,8,11,12]; // phrygian/bhairavi-ish
 
-  const mel=[4,5,4,2,1,0,1,2, 4,5,7,5,4,2,1,0, 7,8,7,5,4,5,4,2, 4,2,1,0,1,2,1,0];
+  const mel=[4,5,4,2,1,0,1,2, 4,5,7,5,4,2,1,0, 7,8,7,5,4,5,4,2, 4,2,1,0,1,2,1,0];
 
-  const hz=k=>D*2*Math.pow(2,(sc[k%8]+12*Math.floor(k/8))/12);
+  const hz=k=>D*2*Math.pow(2,(sc[k%8]+12*Math.floor(k/8))/12);
 
-  const add=(t,f,len,amp)=>{ const a=Math.floor(t*sr), n=Math.floor(len*sr);
+  const add=(t,f,len,amp)=>{ const a=Math.floor(t*sr), n=Math.floor(len*sr);
 
-    for(let i=0;i<n&&a+i<N;i++){ const x=i/sr, e=Math.exp(-x*5.5);
+    for(let i=0;i<n&&a+i<N;i++){ const x=i/sr, e=Math.exp(-x*5.5);
 
-      d[a+i]+=amp*e*(Math.sin(6.283*f*x)+.5*Math.sin(12.566*f*x)+.25*Math.sin(18.85*f*x)+.12*Math.sin(25.1*f*x)); } };
+      d[a+i]+=amp*e*(Math.sin(6.283*f*x)+.5*Math.sin(12.566*f*x)+.25*Math.sin(18.85*f*x)+.12*Math.sin(25.1*f*x)); } };
 
-  const hit=(t,f0,len,amp,noise)=>{ const a=Math.floor(t*sr), n=Math.floor(len*sr);
+  const hit=(t,f0,len,amp,noise)=>{ const a=Math.floor(t*sr), n=Math.floor(len*sr);
 
-    for(let i=0;i<n&&a+i<N;i++){ const x=i/sr, e=Math.exp(-x*(noise?40:14)); const f=f0*(1+1.2*Math.exp(-x*30));
+    for(let i=0;i<n&&a+i<N;i++){ const x=i/sr, e=Math.exp(-x*(noise?40:14)); const f=f0*(1+1.2*Math.exp(-x*30));
 
-      d[a+i]+=amp*e*(noise?(Math.random()*2-1):Math.sin(6.283*f*x)); } };
+      d[a+i]+=amp*e*(noise?(Math.random()*2-1):Math.sin(6.283*f*x)); } };
 
-  for(let b=0;b<bars*4;b++){ const t=b*beat;
+  for(let b=0;b<bars*4;b++){ const t=b*beat;
 
-    hit(t,70,.25,.9,false); if(b%2==1) hit(t,180,.18,.55,false);        // dhol
+    hit(t,70,.25,.9,false); if(b%2==1) hit(t,180,.18,.55,false);        // dhol
 
-    hit(t+beat/2,0,.05,.18,true); hit(t+beat*.75,150,.08,.3,false);      // shaker + tabla tap
+    hit(t+beat/2,0,.05,.18,true); hit(t+beat*.75,150,.08,.3,false);      // shaker + tabla tap
 
-    add(t,D/2,beat*1.8,.12);                                             // drone
+    add(t,D/2,beat*1.8,.12);                                             // drone
 
-  }
+  }
 
-  for(let i=0;i<bars*8;i++){ const k=mel[i%mel.length]; add(i*beat/2, hz(k), beat*1.2, .26); }
+  for(let i=0;i<bars*8;i++){ const k=mel[i%mel.length]; add(i*beat/2, hz(k), beat*1.2, .26); }
 
-  let m=0; for(let i=0;i<N;i++) m=Math.max(m,Math.abs(d[i]));
+  let m=0; for(let i=0;i<N;i++) m=Math.max(m,Math.abs(d[i]));
 
-  const buf=new ArrayBuffer(44+N*2), v=new DataView(buf), w=(o,t)=>[...t].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));
+  const buf=new ArrayBuffer(44+N*2), v=new DataView(buf), w=(o,t)=>[...t].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));
 
-  w(0,'RIFF');v.setUint32(4,36+N*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  w(0,'RIFF');v.setUint32(4,36+N*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
 
-  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,N*2,true);
+  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,N*2,true);
 
-  for(let i=0;i<N;i++) v.setInt16(44+i*2, Math.max(-1,Math.min(1,d[i]/m*.9))*32767, true);
+  for(let i=0;i<N;i++) v.setInt16(44+i*2, Math.max(-1,Math.min(1,d[i]/m*.9))*32767, true);
 
-  return URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));
+  return URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));
 
 }
 
@@ -411,71 +440,96 @@ const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M6 5h4v14H6zm8 0h4v1
 
 function setTitle(t){
 
-  $('songT').textContent = t;
+  $('songT').textContent = t;
 
-  const s = $('song'); s.classList.remove('run');
+  const s = $('song'); s.classList.remove('run');
 
-  requestAnimationFrame(()=>{ if ($('songT').scrollWidth > s.clientWidth) s.classList.add('run'); });
+  requestAnimationFrame(()=>{ if ($('songT').scrollWidth > s.clientWidth) s.classList.add('run'); });
 
 }
 
+function renderSongList(){
+  const list=$('songList'); if(!list)return;
+  const query=($('songSearch').value||'').trim().toLocaleLowerCase();
+  const visible=tracks.map((track,originalIndex)=>({track,originalIndex})).filter(x=>x.track.title.toLocaleLowerCase().includes(query));
+  $('songBrowserButtonCount').textContent=tracks.length?`(${tracks.length})`:'';
+  $('songBrowserCount').textContent=`${tracks.length} गाने • चुनने के लिए टैप करें`;
+  if(!visible.length){list.innerHTML='<div class="song-empty">कोई गाना नहीं मिला। दूसरा नाम खोजें।</div>';return;}
+  list.innerHTML='';
+  visible.forEach(({track,originalIndex})=>{
+    const b=document.createElement('button');b.type='button';b.className='song-option'+(originalIndex===idx?' current':'');b.setAttribute('role','option');b.setAttribute('aria-selected',String(originalIndex===idx));
+    const n=document.createElement('span');n.className='song-num';n.textContent=originalIndex===idx&&!audio.paused?'▶':String(originalIndex+1);
+    const name=document.createElement('span');name.className='song-name';name.textContent=track.title;
+    const status=document.createElement('span');status.className='song-status';status.textContent=originalIndex===idx?(audio.paused?'चुना हुआ':'चल रहा है'):'▶';
+    b.append(n,name,status);b.addEventListener('click',()=>{load(originalIndex,true);renderSongList();});list.appendChild(b);
+  });
+}
+function setSongBrowser(open){$('songBrowser').classList.toggle('open',open);$('songBrowserToggle').setAttribute('aria-expanded',String(open));if(open){renderSongList();$('songSearch').focus({preventScroll:true});}}
+$('songBrowserToggle').addEventListener('click',()=>setSongBrowser(!$('songBrowser').classList.contains('open')));
+$('songBrowserClose').addEventListener('click',()=>setSongBrowser(false));$('songSearch').addEventListener('input',renderSongList);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setSongBrowser(false)});
+document.addEventListener('click',e=>{if($('songBrowser').classList.contains('open')&&!e.target.closest('#songBrowser')&&!e.target.closest('#songBrowserToggle'))setSongBrowser(false)});
+
 async function loadHostedSongs(){
 
-  try {
+  try {
 
-    const response = await fetch("./songs.json", { cache: "no-cache" });
+    const response = await fetch("./songs.json", { cache: "no-cache" });
 
-    if (!response.ok) throw new Error("songs.json returned HTTP " + response.status);
+    if (!response.ok) throw new Error("songs.json returned HTTP " + response.status);
 
-    const songs = await response.json();
+    const songs = await response.json();
 
-    if (!Array.isArray(songs)) throw new Error("songs.json must contain an array");
-
-
-
-    tracks = songs
-
-      .filter(song => song && typeof song.src === "string" && typeof song.title === "string")
-
-      .map(song => ({
-
-        title: song.title,
-
-        // Resolve relative paths against this page so filenames with spaces work.
-
-        src: new URL(song.src, document.baseURI).href
-
-      }));
+    if (!Array.isArray(songs)) throw new Error("songs.json must contain an array");
 
 
 
-    if (!tracks.length) {
+    tracks = songs
 
-      setTitle("कोई गाना उपलब्ध नहीं");
+      .filter(song => song && typeof song.src === "string" && typeof song.title === "string")
 
-      toast("songs.json में कोई गाना नहीं मिला।");
+      .map(song => ({
 
-      return;
+        title: song.title,
 
-    }
+        // Resolve relative paths against this page so filenames with spaces work.
+
+        src: new URL(song.src, document.baseURI).href
+
+      }));
 
 
 
-    idx = 0;
+    if (!tracks.length) {
 
-    load(0, false);
+      setTitle("कोई गाना उपलब्ध नहीं");
 
-    toast(tracks.length + " गाने तैयार हैं — Play दबाएँ");
+      toast("songs.json में कोई गाना नहीं मिला।");
 
-  } catch (error) {
+      return;
 
-    console.error("Hosted playlist could not be loaded:", error);
+    }
 
-    setTitle("गाने उपलब्ध नहीं");
 
-    toast("गाने लोड नहीं हुए। songs.json और songs फ़ोल्डर जाँचें।");
 
-  }
+        const saved = readPlaybackState();
+    const savedIndex = saved ? tracks.findIndex(t => t.src === saved.src || (saved.title && t.title === saved.title)) : -1;
+    idx = savedIndex >= 0 ? savedIndex : 0;
+    pendingResumeTime = savedIndex >= 0 && Number.isFinite(saved.time) ? saved.time : 0;
+    load(idx, false);
+    if(pendingResumeTime>0) audio.addEventListener('loadedmetadata', restorePosition, {once:true});
+    renderSongList();
+    toast(savedIndex>=0 ? "पिछला गाना और उसकी जगह याद है — Play दबाएँ" : tracks.length + " गाने तैयार हैं — Play दबाएँ");
+
+  } catch (error) {
+
+    console.error("Hosted playlist could not be loaded:", error);
+
+    setTitle("गाने उपलब्ध नहीं");
+
+    toast("गाने लोड नहीं हुए। songs.json और songs फ़ोल्डर जाँचें।");
+
+  }
 
 }
 
@@ -489,21 +543,21 @@ let failedTrackCount = 0;
 
 function load(i, autoplay){
 
-  if(!tracks.length){ setTitle("कोई गाना उपलब्ध नहीं"); return; }
+  if(!tracks.length){ setTitle("कोई गाना उपलब्ध नहीं"); return; }
 
-  idx = (i + tracks.length) % tracks.length;
+  idx = (i + tracks.length) % tracks.length;
+  if (autoplay || (tracks[idx]?.src !== readPlaybackState()?.src)) pendingResumeTime = 0;
+  wantsPlayback = !!autoplay;
 
-  wantsPlayback = !!autoplay;
+  audio.pause();
 
-  audio.pause();
+  audio.src = tracks[idx].src;
+  setTitle(tracks[idx].title);
+  savePlaybackState(true);
+  renderSongList();
+  audio.load();
 
-  audio.src = tracks[idx].src;
-
-  setTitle(tracks[idx].title);
-
-  audio.load();
-
-  if(autoplay) play();
+  if(autoplay) play();
 
 }
 
@@ -511,23 +565,23 @@ function load(i, autoplay){
 
 function play(){
 
-  if(!tracks.length) return Promise.resolve();
+  if(!tracks.length) return Promise.resolve();
 
-  wantsPlayback = true;
+  wantsPlayback = true;
 
-  return audio.play().catch(error => {
+  return audio.play().catch(error => {
 
-    console.warn("Could not start track:", tracks[idx]?.src, error);
+    console.warn("Could not start track:", tracks[idx]?.src, error);
 
-    // Keep the controls usable; browser autoplay restrictions can require another tap.
+    // Keep the controls usable; browser autoplay restrictions can require another tap.
 
-    if (error && error.name === "NotAllowedError") {
+    if (error && error.name === "NotAllowedError") {
 
-      toast("गाना चलाने के लिए Play दबाएँ।");
+      toast("गाना चलाने के लिए Play दबाएँ।");
 
-    }
+    }
 
-  });
+  });
 
 }
 
@@ -535,87 +589,91 @@ function play(){
 
 function toggle(){
 
-  if(!tracks.length){
+  if(!tracks.length){
 
-    toast("गाने लोड हो रहे हैं। कृपया कुछ देर बाद कोशिश करें।");
+    toast("गाने लोड हो रहे हैं। कृपया कुछ देर बाद कोशिश करें।");
 
-    return;
+    return;
 
-  }
+  }
 
-  if(audio.paused){
+  if(audio.paused){
 
-    if(!audio.src) load(0, false);
+    if(!audio.src) load(0, false);
 
-    play();
+    play();
 
-  } else {
+  } else {
 
-    wantsPlayback = false;
+    wantsPlayback = false;
 
-    audio.pause();
+    audio.pause();
 
-  }
+  }
 
 }
 
 
 
+audio.addEventListener('loadedmetadata', restorePosition);
 audio.addEventListener('play', ()=>{ $('playIc').innerHTML=PAUSE; $('disc').classList.add('on'); });
 
-audio.addEventListener('pause',()=>{ $('playIc').innerHTML=PLAY;  $('disc').classList.remove('on'); });
+audio.addEventListener('pause',()=>{ $('playIc').innerHTML=PLAY; $('disc').classList.remove('on'); savePlaybackState(true); });
+audio.addEventListener('timeupdate',()=>savePlaybackState());
+window.addEventListener('pagehide',()=>savePlaybackState(true));
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')savePlaybackState(true)});
 
 audio.addEventListener('playing',()=>{
 
-  wantsPlayback = true;
+  wantsPlayback = true;
 
-  failedTrackCount = 0;
+  failedTrackCount = 0;
 
 });
 
 audio.addEventListener('ended',()=>{
 
-  if(tracks.length) load(idx+1, true);
+  if(tracks.length) load(idx+1, true);
 
 });
 
 audio.addEventListener('timeupdate',()=>{
 
-  $('fill').style.width = (audio.duration ? audio.currentTime/audio.duration*100 : 0) + "%";
+  $('fill').style.width = (audio.duration ? audio.currentTime/audio.duration*100 : 0) + "%";
 
-  $('time').textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
+  $('time').textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
 
 });
 
 audio.addEventListener('error',()=>{
 
-  $('disc').classList.remove('on');
+  $('disc').classList.remove('on');
 
-  $('playIc').innerHTML = PLAY;
+  $('playIc').innerHTML = PLAY;
 
 
 
-  // If a track is missing or has a bad path, automatically try the next one.
+  // If a track is missing or has a bad path, automatically try the next one.
 
-  // Stop after one full playlist pass to avoid an endless loop.
+  // Stop after one full playlist pass to avoid an endless loop.
 
-  if (wantsPlayback && tracks.length && failedTrackCount < tracks.length) {
+  if (wantsPlayback && tracks.length && failedTrackCount < tracks.length) {
 
-    failedTrackCount++;
+    failedTrackCount++;
 
-    console.warn("Skipping unavailable track:", tracks[idx]?.src);
+    console.warn("Skipping unavailable track:", tracks[idx]?.src);
 
-    toast("यह गाना नहीं चला — अगला गाना चलाने की कोशिश हो रही है।");
+    toast("यह गाना नहीं चला — अगला गाना चलाने की कोशिश हो रही है।");
 
-    setTimeout(()=>load(idx+1, true), 150);
+    setTimeout(()=>load(idx+1, true), 150);
 
-  } else {
+  } else {
 
-    wantsPlayback = false;
+    wantsPlayback = false;
 
-    toast("गाना नहीं चला। songs.json में इस गाने का path और songs फ़ोल्डर जाँचें।");
+    toast("गाना नहीं चला। songs.json में इस गाने का path और songs फ़ोल्डर जाँचें।");
 
-  }
+  }
 
 });
 
@@ -647,33 +705,33 @@ let rainVolume = 0.6;
 
 function updateVolumeLabels(){
 
-  $('autoVolValue').textContent = Math.round(autoVolume*100) + '%';
+  $('autoVolValue').textContent = Math.round(autoVolume*100) + '%';
 
-  $('rainVolValue').textContent = Math.round(rainVolume*100) + '%';
+  $('rainVolValue').textContent = Math.round(rainVolume*100) + '%';
 
 }
 
 function setAutoVolume(value){
 
-  autoVolume = Math.max(0, Math.min(1, value));
+  autoVolume = Math.max(0, Math.min(1, value));
 
-  autoEngine.volume = autoVolume;
+  autoEngine.volume = autoVolume;
 
-  autoEngine.muted = autoVolume === 0;
+  autoEngine.muted = autoVolume === 0;
 
-  updateVolumeLabels();
+  updateVolumeLabels();
 
 }
 
 function setRainVolume(value){
 
-  rainVolume = Math.max(0, Math.min(1, value));
+  rainVolume = Math.max(0, Math.min(1, value));
 
-  rainSound.volume = rainVolume;
+  rainSound.volume = rainVolume;
 
-  rainSound.muted = rainVolume === 0;
+  rainSound.muted = rainVolume === 0;
 
-  updateVolumeLabels();
+  updateVolumeLabels();
 
 }
 
@@ -721,9 +779,9 @@ $('rainToggle').onclick = async ()=>{
 };
 $('mute').onclick = ()=>{ audio.muted = !audio.muted; $('muteIc').innerHTML = audio.muted
 
-  ? '<path d="M3 9v6h4l5 5V4L7 9H3zm13 .6L14.6 11l1.4 1.4-1.4 1.4L16 15.2l1.4-1.4 1.4 1.4 1.4-1.4-1.4-1.4 1.4-1.4-1.4-1.4-1.4 1.4z"/>'
+  ? '<path d="M3 9v6h4l5 5V4L7 9H3zm13 .6L14.6 11l1.4 1.4-1.4 1.4L16 15.2l1.4-1.4 1.4 1.4 1.4-1.4-1.4-1.4 1.4-1.4-1.4-1.4-1.4 1.4z"/>'
 
-  : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/>'; };
+  : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/>'; };
 
 $('skull').onclick = ()=>{ const on = bg.classList.toggle('ghost'); $('skull').title = on ? "Stop mooning" : "Start mooning"; };
 
@@ -737,39 +795,59 @@ setInterval(()=>{ $('count').textContent = 10 + Math.floor(Math.random()*4); }, 
 
 /* Load the hosted playlist automatically. Browsers still require a user tap
 
-   before audio with sound can start; the visitor only needs to press Play. */
+   before audio with sound can start; the visitor only needs to press Play. */
 
 // The video title can be hidden on demand and restored with the small floating badge.
 
 $('hideTitle').addEventListener('click', ()=>{
 
-  $('hero').classList.add('hidden');
+  $('hero').classList.add('hidden');
 
-  $('showTitle').classList.add('visible');
+  $('showTitle').classList.add('visible');
 
 });
 
 $('showTitle').addEventListener('click', ()=>{
 
-  $('hero').classList.remove('hidden');
+  $('hero').classList.remove('hidden');
 
-  $('showTitle').classList.remove('visible');
+  $('showTitle').classList.remove('visible');
 
 });
 
 
 
+// Offline support: requires HTTPS hosting such as GitHub Pages.
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Offline support registration failed:',err));
+}
+$('offlineDownload').addEventListener('click', async ()=>{
+  const btn=$('offlineDownload'), status=$('offlineStatus');
+  if(!tracks.length){status.textContent='पहले playlist लोड होने दें';return;}
+  if(!('serviceWorker' in navigator) || !location.protocol.startsWith('http')){status.textContent='Offline सुविधा के लिए GitHub Pages/HTTPS पर खोलें';return;}
+  btn.disabled=true;status.textContent='डाउनलोड शुरू हो रहा है…';
+  try{
+    await navigator.serviceWorker.ready;
+    const worker=navigator.serviceWorker.controller || (await navigator.serviceWorker.ready).active;
+    if(!worker)throw new Error('Service worker not ready');
+    const urls=[...new Set(tracks.map(t=>t.src))], channel=new MessageChannel();
+    channel.port1.onmessage=e=>{const d=e.data||{};
+      if(d.type==='progress')status.textContent=`Offline सेव हो रहे हैं: ${d.done}/${d.total}`;
+      if(d.type==='complete'){status.textContent=`${d.saved} गाने offline सेव हुए${d.failed?` • ${d.failed} डाउनलोड नहीं हुए`:''}`;btn.disabled=false;toast(d.failed?'कुछ गाने डाउनलोड नहीं हुए; इंटरनेट कनेक्शन जाँचें।':'गाने offline सुनने के लिए तैयार हैं।');}
+    };
+    worker.postMessage({type:'CACHE_SONGS',urls},[channel.port2]);
+  }catch(err){console.error(err);status.textContent='डाउनलोड शुरू नहीं हुआ — पेज refresh करें';btn.disabled=false;}
+});
 loadHostedSongs();
-
 bg.play().catch(() => {});
 
 const kick = () => {
 
-  if (started) return;
+  if (started) return;
 
-  started = true;
+  started = true;
 
-  bg.play().catch(() => {});
+  bg.play().catch(() => {});
 
 };
 
