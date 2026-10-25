@@ -11,12 +11,23 @@
 :root{--red:#e8112d;--glass:rgba(255,255,255,.14);--line:rgba(255,255,255,.35)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',system-ui,sans-serif;color:#fff}
-#bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transition:filter .6s}
+#bg,#rainBg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s,filter .6s}#rainBg{opacity:0;pointer-events:none}#rainBg.active{opacity:1}
 #bg.ghost{filter:grayscale(1) contrast(1.2) brightness(.6)}
 .shade{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.05) 30%,rgba(0,0,0,.55) 100%),linear-gradient(to bottom,rgba(0,0,0,.35),transparent 30%,transparent 65%,rgba(0,0,0,.55))}
 
-/* title */
-.hero{position:fixed;top:11vh;left:0;right:0;text-align:center;pointer-events:none;padding:0 16px}
+.sound-control{display:flex;align-items:center;gap:5px}
+.volume-pair{height:30px;display:flex;align-items:center;gap:3px;padding:2px 5px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(0,0,0,.48);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:600 10px system-ui,sans-serif}
+.volume-pair button{width:23px;height:23px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:17px;line-height:1;cursor:pointer;touch-action:manipulation}
+.volume-pair span{min-width:28px;text-align:center;font-variant-numeric:tabular-nums}
+@media(max-width:640px){.top{left:8px;right:8px;top:max(env(safe-area-inset-top),8px);gap:5px}.sound-control{gap:3px}.volume-pair{height:27px;padding:2px 4px;gap:2px}.volume-pair button{width:21px;height:21px}.top .pill{height:34px;padding:0 9px;font-size:10px}.volume-pair span{min-width:25px;font-size:9px}}
+@media(max-width:390px){.top{gap:4px}.sound-control{gap:2px}.top .pill{padding:0 7px;font-size:9px}.volume-pair{gap:1px}.volume-pair button{width:19px;height:19px}}
+/* title overlay: responsive and easy to hide without stopping the video */
+.hero{position:fixed;top:clamp(72px,11vh,120px);left:0;right:0;text-align:center;pointer-events:none;padding:0 16px;z-index:2;transition:opacity .25s,transform .25s}
+.hero.hidden{opacity:0;transform:translateY(-12px);pointer-events:none}
+.title-tools{display:flex;justify-content:center;margin-top:12px;pointer-events:auto}
+.hide-title{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 11px;background:rgba(0,0,0,.35);color:#fff;font:600 11px 'Mukta',sans-serif;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+.show-title{position:fixed;left:12px;top:max(env(safe-area-inset-top),12px);z-index:8;display:none;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:8px 12px;background:rgba(0,0,0,.55);color:#fff;font:700 12px 'Mukta',sans-serif;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+.show-title.visible{display:block}
 .title{font-family:'Mukta',sans-serif;font-weight:800;line-height:.95;font-size:clamp(46px,9.2vw,128px);color:var(--red);
   -webkit-text-stroke:clamp(5px,.9vw,12px) #fff;paint-order:stroke fill;transform:rotate(-6deg) skewX(-8deg);
   filter:drop-shadow(5px 6px 0 rgba(0,0,0,.55)) drop-shadow(0 10px 25px rgba(0,0,0,.5));display:inline-block}
@@ -25,7 +36,7 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 .sub{margin-top:clamp(14px,2.6vw,34px);font-family:'Mukta',sans-serif;font-weight:700;font-size:clamp(16px,1.7vw,24px);text-shadow:0 2px 10px rgba(0,0,0,.8)}
 
 /* top controls */
-.top{position:fixed;top:max(env(safe-area-inset-top),18px);right:18px;display:flex;gap:10px;align-items:center;z-index:5}
+.top{position:fixed;top:max(env(safe-area-inset-top),18px);right:18px;display:flex;gap:8px;align-items:center;z-index:5;flex-wrap:wrap;max-width:calc(100vw - 20px);justify-content:flex-end}
 .pill,.round{background:rgba(20,20,20,.55);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff;cursor:pointer;transition:.2s}
 .pill{display:flex;align-items:center;gap:9px;padding:0 18px;height:42px;border-radius:99px;font-weight:700;font-size:13px;letter-spacing:.4px;border-color:rgba(60,220,110,.6)}
 .pill i{width:10px;height:10px;border-radius:50%;background:#2ee06b;box-shadow:0 0 10px #2ee06b}
@@ -74,24 +85,52 @@ html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',syst
 .signature:hover,.instagram:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.55);background:rgba(15,15,15,.85)}
 .toast{position:fixed;top:78px;left:50%;transform:translate(-50%,-20px);background:rgba(0,0,0,.75);padding:10px 18px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.3s;z-index:9;text-align:center;max-width:90vw}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:640px){.signature{left:10px;bottom:2vh;padding:7px 10px 7px 7px;gap:7px}.signature .sig-mark{width:23px;height:23px}.signature small{font-size:7px}.signature strong{font-size:9px}.instagram{right:10px;bottom:2vh;padding:8px 10px;font-size:10px;gap:6px}.instagram .ig-icon{width:17px;height:17px}.player{height:78px;gap:10px}.disc{width:56px;height:56px}.disc b{inset:14px}.ctrl button{width:34px;height:34px}.ctrl button.main{width:38px;height:38px}.pill{padding:0 12px;height:38px}.round{width:38px;height:38px}.top{right:10px}}
+@media(max-width:640px){
+  .hero{top:clamp(70px,10vh,100px);padding:0 10px}
+  .title{font-size:clamp(38px,12vw,76px);-webkit-text-stroke:clamp(3px,.8vw,6px) #fff}
+  .sub{font-size:clamp(13px,4vw,18px);margin-top:10px}
+  .signature{left:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:6px 8px 6px 6px;gap:6px;letter-spacing:.5px}
+  .signature .sig-mark{width:21px;height:21px}.signature small{font-size:6px;letter-spacing:1.2px}.signature strong{font-size:8px;letter-spacing:.4px}
+  .instagram{right:8px;bottom:max(env(safe-area-inset-bottom),10px);padding:7px 9px;font-size:10px;gap:5px}
+  .instagram .ig-icon{width:16px;height:16px}
+  .player{bottom:calc(max(env(safe-area-inset-bottom),10px) + 48px);height:74px;width:calc(100vw - 20px);gap:8px;padding:0 10px}
+  .disc{width:48px;height:48px}.disc b{inset:12px}
+  .meta{min-width:0}.np{font-size:8px;letter-spacing:1.2px}.song{font-size:12px}.time{font-size:9px;margin-top:4px}
+  .ctrl{gap:4px}.ctrl button{width:31px;height:31px}.ctrl button.main{width:35px;height:35px}
+  .pill{padding:0 10px;height:36px;font-size:11px;gap:6px}.round{width:36px;height:36px}.top{right:8px;gap:6px}
+}
+@media(max-width:380px){
+  .player{gap:6px;padding:0 7px}.disc{width:40px;height:40px}.disc b{inset:10px}
+  .ctrl button{width:28px;height:28px}.ctrl button.main{width:32px;height:32px}
+  .song{font-size:11px}.top .round.skull{display:none}
+  .instagram{font-size:9px}
+}
+@media(max-height:500px) and (orientation:landscape){.top{max-width:calc(100vw - 12px);gap:4px}.volume-pair{height:24px}.volume-pair button{width:18px;height:18px}
+  .hero{top:54px}.title{font-size:clamp(30px,7vw,54px);-webkit-text-stroke:3px #fff}
+  .sub{font-size:12px;margin-top:5px}.title-tools{margin-top:4px}
+  .player{bottom:8px;height:64px;width:min(430px,80vw)}.disc{width:46px;height:46px}.disc b{inset:11px}
+  .signature,.instagram{bottom:8px}.top{top:8px}
+}
 </style>
 </head>
 <body>
 
 <video id="bg" muted src="auto.mp4" autoplay loop playsinline preload="auto"></video>
+<video id="rainBg" muted src="rain.mp4" autoplay loop playsinline preload="auto" aria-hidden="true"></video>
 <div class="shade"></div>
 
 <div class="top">
-  <button class="pill off" id="amb" title="ऑटो की असली आवाज़"><i></i>ऑटो की आवाज़</button>
+  <div class="sound-control"><button class="pill off" id="amb" title="ऑटो की आवाज़ चालू/बंद"><i></i>ऑटो की आवाज़</button><div class="volume-pair" aria-label="ऑटो की आवाज़ का वॉल्यूम"><button type="button" id="autoVolDown" aria-label="ऑटो की आवाज़ कम करें">−</button><span id="autoVolValue">70%</span><button type="button" id="autoVolUp" aria-label="ऑटो की आवाज़ बढ़ाएँ">+</button></div></div><div class="sound-control"><button class="pill off" id="rainToggle" title="बारिश चालू/बंद"><i></i>बारिश</button><div class="volume-pair" aria-label="बारिश की आवाज़ का वॉल्यूम"><button type="button" id="rainVolDown" aria-label="बारिश की आवाज़ कम करें">−</button><span id="rainVolValue">60%</span><button type="button" id="rainVolUp" aria-label="बारिश की आवाज़ बढ़ाएँ">+</button></div></div>
   <button class="round" id="mute" title="Mute / Unmute"><svg viewBox="0 0 24 24" id="muteIc"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
   <button class="round skull" id="skull" title="Start mooning"><svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 2.8 1.3 5.2 3.3 6.8V21h3v-2h1.4v2h2.6v-2h1.4v2h3v-3.2A9 9 0 0 0 12 2zM8.5 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></button>
 </div>
 
-<div class="hero">
+<div class="hero" id="hero">
   <h1 class="title"><span>म्यूज़िकल</span><span>ऑटो</span><span>सेवा</span></h1>
   <p class="sub">आपका स्वागत करती है</p>
+  <div class="title-tools"><button class="hide-title" id="hideTitle" type="button" aria-label="शीर्षक छिपाएँ">शीर्षक छिपाएँ ×</button></div>
 </div>
+<button class="show-title" id="showTitle" type="button" aria-label="शीर्षक दिखाएँ">म्यूज़िकल ऑटो सेवा ✦</button>
 
 
 <div class="player">
@@ -126,6 +165,7 @@ const PLAYLIST = []; // Playlist is loaded automatically from songs.json.
 const $ = id => document.getElementById(id);
 const audio = new Audio(); audio.preload = "auto";
 const bg = $('bg');
+const rainBg = $('rainBg');
 let idx = 0, started = false, tracks = PLAYLIST.slice();
 
 
@@ -275,18 +315,50 @@ $('bar').onclick = e => { const r=$('bar').getBoundingClientRect(); if(audio.dur
 
 /* top buttons */
 let amb = false;
+let rainOn = false;
+let autoVolume = 0.7;
+let rainVolume = 0.6;
+function updateVolumeLabels(){
+  $('autoVolValue').textContent = Math.round(autoVolume*100) + '%';
+  $('rainVolValue').textContent = Math.round(rainVolume*100) + '%';
+}
+function setAutoVolume(value){
+  autoVolume = Math.max(0, Math.min(1, value));
+  bg.volume = autoVolume;
+  bg.muted = !amb || autoVolume === 0;
+  updateVolumeLabels();
+}
+function setRainVolume(value){
+  rainVolume = Math.max(0, Math.min(1, value));
+  rainBg.volume = rainVolume;
+  rainBg.muted = !rainOn || rainVolume === 0;
+  updateVolumeLabels();
+}
 $('amb').onclick = ()=>{
   amb = !amb;
-  if(amb){
-    // Play the original audio track from auto.mp4 alongside the music playlist.
-    bg.volume = 1;
-    bg.muted = false;
-    bg.play().catch(()=>toast("ऑटो की आवाज़ चलाने के लिए बटन फिर दबाएँ।"));
-  } else {
-    bg.muted = true;
-  }
+  setAutoVolume(autoVolume);
+  if(amb) bg.play().catch(()=>toast("ऑटो की आवाज़ चलाने के लिए बटन फिर दबाएँ।"));
   $('amb').classList.toggle('off', !amb);
 };
+$('rainToggle').onclick = ()=>{
+  rainOn = !rainOn;
+  rainBg.classList.toggle('active', rainOn);
+  rainBg.muted = !rainOn || rainVolume === 0;
+  rainBg.volume = rainVolume;
+  $('rainToggle').classList.toggle('off', !rainOn);
+  if(rainOn){
+    rainBg.play().catch(()=>toast("बारिश वाला वीडियो चलाने के लिए rain.mp4 फ़ाइल जाँचें।"));
+  } else {
+    // Keep it ready but hide/mute it; auto.mp4 remains the visible background.
+    rainBg.muted = true;
+  }
+};
+$('autoVolDown').onclick = ()=>setAutoVolume(autoVolume - 0.1);
+$('autoVolUp').onclick = ()=>setAutoVolume(autoVolume + 0.1);
+$('rainVolDown').onclick = ()=>setRainVolume(rainVolume - 0.1);
+$('rainVolUp').onclick = ()=>setRainVolume(rainVolume + 0.1);
+setAutoVolume(autoVolume);
+setRainVolume(rainVolume);
 $('mute').onclick = ()=>{ audio.muted = !audio.muted; $('muteIc').innerHTML = audio.muted
   ? '<path d="M3 9v6h4l5 5V4L7 9H3zm13 .6L14.6 11l1.4 1.4-1.4 1.4L16 15.2l1.4-1.4 1.4 1.4 1.4-1.4-1.4-1.4 1.4-1.4-1.4-1.4-1.4 1.4z"/>'
   : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/>'; };
@@ -297,6 +369,16 @@ setInterval(()=>{ $('count').textContent = 10 + Math.floor(Math.random()*4); }, 
 
 /* Load the hosted playlist automatically. Browsers still require a user tap
    before audio with sound can start; the visitor only needs to press Play. */
+// The video title can be hidden on demand and restored with the small floating badge.
+$('hideTitle').addEventListener('click', ()=>{
+  $('hero').classList.add('hidden');
+  $('showTitle').classList.add('visible');
+});
+$('showTitle').addEventListener('click', ()=>{
+  $('hero').classList.remove('hidden');
+  $('showTitle').classList.remove('visible');
+});
+
 loadHostedSongs();
 bg.play().catch(() => {});
 const kick = () => {
